@@ -51,21 +51,23 @@ char *get_level(CLogger clog){
   return "UNWANTED RESULT";
 }
 
+typedef struct{
+  CLog_Level level;
+} Init_Params;
+
 /*
- * CLOG_OPTIONS:
- * Set of options to modify pre-defined parts of the logger.
+ * Shoutout to 
+ * Vjekoslav Krajačić(@vkrajacic on X, https://x.com/vkrajacic/status/1749816169736073295) for this useful macro
+ * and to 
+ * Tsoding(@tsoding on X, "Syntax You Never Heard About" ~ Tsoding Daily on YouTube) for showing it in a video.
  */
-#ifdef CLOG_OPTIONS
+CLogger init_clog_(Init_Params params);
+#define init_clog(...) \
+  init_clog_((Init_Params) {.level = INFO, __VA_ARGS__} )
 
-CLogger set_clog_level(CLogger *clog, CLog_Level level){
-  clog->level = level;
-}
-
-#endif // CLOG_OPTIONS
-
-CLogger init_clog(){
+CLogger init_clog_(Init_Params params){
   CLogger clog;
-  clog.level = INFO;
+  clog.level = params.level;
   return clog;
 }
 
