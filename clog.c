@@ -7,14 +7,14 @@
 
 #include "clog.h"
 
-int main(int argc, char *argv[])
+int main()
 {
   CLogger logger;
-  logger = init_clog(.level=DEBUG);
+  logger = init_clog(.level=WARNING);
 
-  clog_info(logger, "message");
-  clog_debug(logger, "message");
-  clog_warn(logger, "message");
+  clog_info(logger, "That is a info message");
+  clog_debug(logger, "That is a debug message");
+  clog_warn(logger, "That is a warning message");
 
   return 0;
 }

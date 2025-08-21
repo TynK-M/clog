@@ -106,9 +106,9 @@ static inline const char *get_level(CLogger clog) {
 /*
    Version history:
    0.0.4 (21/08/2025) :
-    - Added the macro LOG_LEVELS to have the possibilty to get bot the uppercase and lowercase name of the level.
+    - Added the macro LOG_LEVELS to have the possibilty to get bot the uppercase and lowercase name of the level
     - Changed the get_level() to use LOG_LEVELS
-    - Added the macro MAKE_LOG_FUNCTIONS that creates all the different main functions to log.
+    - Added the macro MAKE_LOG_FUNCTIONS that creates all the different main functions to log
     - Added the LICENSE inside clog.h
     - Wrote the README.md
    0.0.3 (21/08/2025) :
