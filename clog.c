@@ -2,13 +2,14 @@
 
 #include "clog.h"
 
-
 int main(int argc, char *argv[])
 {
   CLogger logger;
-  logger = init_clog(.level= DEBUG);
+  logger = init_clog(.level=WARNING);
 
-  printf("%s", get_level(logger));
+  clog_info(logger, "message");
+  clog_debug(logger, "message");
+  clog_warn(logger, "message");
 
   return 0;
 }

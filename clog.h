@@ -21,6 +21,14 @@ typedef enum {
   CRITICAL
 } CLog_Level;
 
+#define LOG_LEVELS(X) \
+    X(DEBUG, debug)   \
+    X(INFO, info)     \
+    X(WARNING, warn)  \
+    X(ERROR, err)     \
+    X(CRITICAL, crit)
+#undef X
+
 /*
  * CLOG LOGGER:
  * A basic logging structure for capturing log messages at a specific log level.
@@ -56,25 +64,32 @@ CLogger init_clog_(Init_Params params){
   return clog;
 }
 
+/*
+ * Main macro of the library.
+ * It creates the various clog_*(* = debug/info/warn/err/crit).
+ */
+#define MAKE_LOG_FUNCTIONS(clog_level, func_name) \
+void clog_##func_name(CLogger logger, const char *message) { \
+    if (logger.level <= clog_level) { \
+        printf("[%s] %s\n", #clog_level, message); \
+    } \
+}
+
+LOG_LEVELS(MAKE_LOG_FUNCTIONS)
+
+#undef X
+
 #ifdef CLOG_DEBUG
 /*
  * Function used for debug, it shows the level of the CLogger.
  */
-const char *get_level(CLogger clog){
-  switch (clog.level) {
-    case 0:
-      return "DEBUG";
-    case 1:
-      return "INFO";
-    case 2:
-      return "WARNING";
-    case 3:
-        return "ERROR";
-    case 4:
-        return "CRITICAL";
-    default:
-      return "UNWANTED RESULT";
-  }
+const char *get_level(CLogger clog) {
+    switch (clog.level) {
+        #define CASE(level) case level: return #level;
+        LOG_LEVELS(CASE)
+        #undef CASE
+        default: return "UNWANTED RESULT";
+    }
 }
 
 /*
@@ -97,5 +112,4 @@ static inline const char *get_level(CLogger clog) {
     - Added compile-time error if debug functions are used without CLOG_DEBUG
    0.0.2 (20/08/2025) : https://github.com/TynK-M/clog/compare/v0.0.1...v0.0.2
    0.0.1 (20/08/2025) : https://github.com/TynK-M/clog/commits/v0.0.1
-
 */
