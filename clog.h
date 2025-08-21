@@ -85,7 +85,7 @@ LOG_LEVELS(MAKE_LOG_FUNCTIONS)
  */
 const char *get_level(CLogger clog) {
     switch (clog.level) {
-        #define CASE(level) case level: return #level;
+        #define CASE(enum_level, func_name) case enum_level: return #enum_level;
         LOG_LEVELS(CASE)
         #undef CASE
         default: return "UNWANTED RESULT";
@@ -105,6 +105,10 @@ static inline const char *get_level(CLogger clog) {
 
 /*
    Version history:
+   0.0.4 (21/08/2025) :
+    - Added the macro LOG_LEVELS to have the possibilty to get bot the uppercase and lowercase name of the level.
+    - Changed the get_level() to use LOG_LEVELS
+    - Added the macro MAKE_LOG_FUNCTIONS that creates all the different main functions to log.
    0.0.3 (21/08/2025) :
     - Added versioning information inside clog.h
     - Introduced CLOG_DEBUG flag
