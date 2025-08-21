@@ -1,5 +1,7 @@
-#include <stdio.h>
+#define CLOG
+
 #include "clog.h"
+
 
 int main(int argc, char *argv[])
 {

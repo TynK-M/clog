@@ -1,5 +1,9 @@
-#ifndef CLOG
-#define CLOG 
+#ifdef CLOG
+
+/*
+ * Needed dependencies.
+ */
+#include <stdio.h>
 
 /*
  * CLOG LEVELS:
@@ -32,25 +36,6 @@ typedef struct{
   size_t count;
 } CLogger;
 
-char *get_level(CLogger clog){
-  switch (clog.level) {
-    case 0:
-      return "DEBUG";
-    case 1:
-      return "INFO";
-    case 2:
-      return "WARNING";
-    case 3:
-        return "ERROR";
-    case 4:
-        return "CRITICAL";
-    default:
-      break;
-  }
-
-  return "UNWANTED RESULT";
-}
-
 typedef struct{
   CLog_Level level;
 } Init_Params;
@@ -71,4 +56,46 @@ CLogger init_clog_(Init_Params params){
   return clog;
 }
 
+#ifdef CLOG_DEBUG
+/*
+ * Function used for debug, it shows the level of the CLogger.
+ */
+const char *get_level(CLogger clog){
+  switch (clog.level) {
+    case 0:
+      return "DEBUG";
+    case 1:
+      return "INFO";
+    case 2:
+      return "WARNING";
+    case 3:
+        return "ERROR";
+    case 4:
+        return "CRITICAL";
+    default:
+      return "UNWANTED RESULT";
+  }
+}
+
+/*
+ * Standard output for using debug features without CLOG_DEBUG defined.
+ */
+#else
+static inline const char *get_level(CLogger clog) {
+    return "CLOG_ERROR: get_level requires defined CLOG_DEBUG";
+}
+#endif // CLOG_DEBUG
+
 #endif // CLOG
+
+/*
+   Version history:
+   0.0.3 (21/08/2025) :
+    - Added versioning information inside clog.h
+    - Introduced CLOG_DEBUG flag
+    - Moved get_level() under CLOG_DEBUG
+    - Added compile-time error if debug functions are used without CLOG_DEBUG
+   0.0.2 (20/08/2025) : https://github.com/TynK-M/clog/compare/v0.0.1...v0.0.2
+   0.0.1 (20/08/2025) : https://github.com/TynK-M/clog/commits/v0.0.1
+
+*/
